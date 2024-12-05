@@ -36,7 +36,8 @@ class BookValidationTests {
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
         assertThat(violations).hasSize(2);
         List<String> constraintViolationMessages = violations.stream()
-                .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.toList());
         assertThat(constraintViolationMessages)
                 .contains("The book ISBN must be defined.")
                 .contains("The ISBN format must be valid.");
