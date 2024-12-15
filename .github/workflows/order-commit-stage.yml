@@ -1,4 +1,4 @@
-name: Commit Stage
+name: Order Commit Stage
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: LukaszKochaniak/cloud-native/order-service
