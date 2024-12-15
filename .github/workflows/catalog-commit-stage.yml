@@ -1,4 +1,8 @@
 name: Catalog Service Workflow
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: polarbookshop/catalog-service
+  VERSION: latest
 on:
   push:
     paths:

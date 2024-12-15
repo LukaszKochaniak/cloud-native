@@ -1,4 +1,8 @@
 name: Config Service Workflow
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: polarbookshop/config-service
+  VERSION: latest
 on:
   push:
     paths:
