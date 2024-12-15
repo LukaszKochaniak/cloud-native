@@ -54,6 +54,7 @@ jobs:
           kubeconform: latest
       - name: Validate Kubernetes manifests
         run: |
+          cd config-service
           kubeconform --strict k8s
   package:
     name: Package and Publish
