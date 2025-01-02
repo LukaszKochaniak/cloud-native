@@ -1,14 +1,14 @@
-name: Order Commit Stage
+name: Dispatcher Commit Stage
 on:
   push:
     paths:
-      - 'edge-service/**'
+      - 'dispatcher-service/**'
   pull_request:
     paths:
-      - 'edge-service/**'
+      - 'dispatcher-service/**'
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/edge-service
+  IMAGE_NAME: LukaszKochaniak/cloud-native/dispatcher-service
   VERSION: latest
 jobs:
   build:
@@ -28,6 +28,7 @@ jobs:
           cache: gradle
       - name: Build, unit tests and integration tests
         run: |
+          cd dispatcher-service
           chmod +x gradlew
           ./gradlew build
       - name: Code vulnerability scanning
@@ -50,7 +51,7 @@ jobs:
           kubeconform: latest
       - name: Validate Kubernetes manifests
         run: |
-          cd edge-service
+          cd dispatcher-service 
           kubeconform --strict k8s
   package:
     name: Package and Publish
@@ -72,7 +73,6 @@ jobs:
           cache: gradle
       - name: Build container image
         run: |
-          cd edge-service
           chmod +x gradlew
           ./gradlew bootBuildImage \
             --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
