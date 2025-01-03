@@ -1,7 +1,7 @@
 name: Catalog Service Workflow
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/catalog-service
+  IMAGE_NAME: lukaszkochaniak/cloud-native/catalog-service
   VERSION: latest
 on:
   push:
@@ -62,7 +62,7 @@ jobs:
           kubeconform --strict k8s
   package:
     name: Package and Publish
-    if: ${{ github.ref == 'refs/heads/main' }}
+    #if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
     runs-on: ubuntu-22.04
     permissions:

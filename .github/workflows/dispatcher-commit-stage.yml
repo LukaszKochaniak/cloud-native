@@ -1,7 +1,7 @@
 name: Dispatcher Commit Stage
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/dispatcher-service
+  IMAGE_NAME: lukaszkochaniak/cloud-native/dispatcher-service
   VERSION: latest
 on:
   push:
@@ -21,6 +21,9 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    concurrency:
+      group: monorepo-ci
+      cancel-in-progress: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -59,7 +62,7 @@ jobs:
           kubeconform --strict k8s
   package:
     name: Package and Publish
-    if: ${{ github.ref == 'refs/heads/main' }}
+    #if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
     runs-on: ubuntu-22.04
     permissions:
@@ -77,6 +80,7 @@ jobs:
           cache: gradle
       - name: Build container image
         run: |
+          cd dispatcher-service
           chmod +x gradlew
           ./gradlew bootBuildImage \
             --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}

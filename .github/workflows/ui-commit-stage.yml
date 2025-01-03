@@ -1,7 +1,7 @@
 name: UI Commit Stage
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/polar-ui
+  IMAGE_NAME: lukaszkochaniak/cloud-native/polar-ui
   VERSION: latest
 on:
   push:
@@ -21,6 +21,9 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    concurrency:
+      group: monorepo-ci
+      cancel-in-progress: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -51,7 +54,7 @@ jobs:
             kubeconform --strict k8s
   package:
     name: Package and Publish
-    if: ${{ github.ref == 'refs/heads/main' }}
+    #if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
     runs-on: ubuntu-22.04
     permissions:
@@ -65,6 +68,7 @@ jobs:
         uses: buildpacks/github-actions/setup-pack@v5.5.1
       - name: Build SPA
         run: |
+          cd polar-ui
           chmod +x gradlew
           ./gradlew buildAngular
       - name: Package SPA
