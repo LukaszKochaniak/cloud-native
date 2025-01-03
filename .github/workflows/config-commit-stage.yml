@@ -5,11 +5,15 @@ env:
   VERSION: latest
 on:
   push:
+    branches:
+      - main
     paths:
       - 'config-service/**'
+      - '.github/workflows/config-commit-stage.yml'
   pull_request:
     paths:
       - 'config-service/**'
+      - '.github/workflows/config-commit-stage.yml'
 jobs:
   build:
     name: Build and Test
