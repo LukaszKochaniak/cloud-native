@@ -1,15 +1,19 @@
 name: Dispatcher Commit Stage
-on:
-  push:
-    paths:
-      - 'dispatcher-service/**'
-  pull_request:
-    paths:
-      - 'dispatcher-service/**'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: LukaszKochaniak/cloud-native/dispatcher-service
   VERSION: latest
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dispatcher-service/**'
+      - '.github/workflows/dispatcher-commit-stage.yml'
+  pull_request:
+    paths:
+      - 'dispatcher-service/**'
+      - '.github/workflows/dispatcher-commit-stage.yml'
 jobs:
   build:
     name: Build and Test

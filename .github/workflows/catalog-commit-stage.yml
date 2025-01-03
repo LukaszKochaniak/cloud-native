@@ -5,11 +5,15 @@ env:
   VERSION: latest
 on:
   push:
+    branches:
+      - main
     paths:
       - 'catalog-service/**'
+      - '.github/workflows/catalog-commit-stage.yml'
   pull_request:
     paths:
       - 'catalog-service/**'
+      - '.github/workflows/catalog-commit-stage.yml'
 jobs:
   build:
     name: Build and Test

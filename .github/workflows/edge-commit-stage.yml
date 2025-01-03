@@ -1,15 +1,19 @@
-name: Order Commit Stage
-on:
-  push:
-    paths:
-      - 'edge-service/**'
-  pull_request:
-    paths:
-      - 'edge-service/**'
+name: Edge Commit Stage
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: LukaszKochaniak/cloud-native/edge-service
   VERSION: latest
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'edge-service/**'
+      - '.github/workflows/edge-commit-stage.yml'
+  pull_request:
+    paths:
+      - 'edge-service/**'
+      - '.github/workflows/edge-commit-stage.yml'
 jobs:
   build:
     name: Build and Test
@@ -28,6 +32,7 @@ jobs:
           cache: gradle
       - name: Build, unit tests and integration tests
         run: |
+          cd edge-service
           chmod +x gradlew
           ./gradlew build
       - name: Code vulnerability scanning

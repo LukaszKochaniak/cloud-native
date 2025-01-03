@@ -5,11 +5,15 @@ env:
   VERSION: latest
 on:
   push:
+    branches:
+      - main
     paths:
       - 'polar-ui/**'
+      - '.github/workflows/ui-commit-stage.yml'
   pull_request:
     paths:
       - 'polar-ui/**'
+      - '.github/workflows/ui-commit-stage.yml'
 jobs:
   build:
     name: Build and Test
