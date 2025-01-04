@@ -21,9 +21,6 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    concurrency:
-      group: monorepo-ci
-      cancel-in-progress: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -54,7 +51,7 @@ jobs:
             kubeconform --strict k8s
   package:
     name: Package and Publish
-    #if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
     runs-on: ubuntu-22.04
     permissions:
@@ -73,6 +70,7 @@ jobs:
           ./gradlew buildAngular
       - name: Package SPA
         run: |
+          cd polar-ui
           pack build ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} \
             --buildpack gcr.io/paketo-buildpacks/nginx \
             --builder paketobuildpacks/builder:base \
@@ -97,3 +95,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+

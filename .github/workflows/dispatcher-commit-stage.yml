@@ -21,9 +21,6 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    concurrency:
-      group: monorepo-ci
-      cancel-in-progress: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -62,7 +59,7 @@ jobs:
           kubeconform --strict k8s
   package:
     name: Package and Publish
-    #if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
     runs-on: ubuntu-22.04
     permissions:
@@ -104,3 +101,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
