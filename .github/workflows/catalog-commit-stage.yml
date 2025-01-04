@@ -1,7 +1,7 @@
 name: Catalog Service Workflow
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/catalog-service
+  IMAGE_NAME: lukaszkochaniak/cloud-native/catalog-service
   VERSION: latest
 on:
   push:
@@ -21,9 +21,6 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    concurrency:
-      group: monorepo-ci
-      cancel-in-progress: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -104,3 +101,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+

@@ -1,7 +1,7 @@
 name: UI Commit Stage
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/polar-ui
+  IMAGE_NAME: lukaszkochaniak/cloud-native/polar-ui
   VERSION: latest
 on:
   push:
@@ -65,10 +65,12 @@ jobs:
         uses: buildpacks/github-actions/setup-pack@v5.5.1
       - name: Build SPA
         run: |
+          cd polar-ui
           chmod +x gradlew
           ./gradlew buildAngular
       - name: Package SPA
         run: |
+          cd polar-ui
           pack build ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} \
             --buildpack gcr.io/paketo-buildpacks/nginx \
             --builder paketobuildpacks/builder:base \
@@ -93,3 +95,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+

@@ -1,7 +1,7 @@
 name: Order Commit Stage
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: LukaszKochaniak/cloud-native/order-service
+  IMAGE_NAME: lukaszkochaniak/cloud-native/order-service
   VERSION: latest
 on:
   push:
@@ -101,3 +101,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
